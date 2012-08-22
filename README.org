@@ -27,3 +27,11 @@ Check out the log
 #+BEGIN_SRC sh
 # cat alimit.log
 #+END_SRC
+
+* nginx
+You might want to limit access to the .alimit files themselves. Do so using:
+#+BEGIN_SRC
+        location ~ \..*\.alimit$ {
+                deny all;
+        }
+#+END_SRC
