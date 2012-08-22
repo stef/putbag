@@ -35,7 +35,7 @@ tail -F -n 0 "$logfile" | while read entry; do
 
     # extract path and filename from request
     req=$(print "$entry" | sed -r 's/.*]\s"([^ ]+)\s.*/\1/')
-    [[ "x$req" != "xGET" || "x$req" != "xPOST" ]] && continue
+    [[ "x$req" != "xGET" && "x$req" != "xPOST" ]] && continue
     rpath=$(print "$entry" | sed -r 's/.*] "'$req' (.*) HTTP\/[0-9.]*" .*/\1/')
 
     [[ -f "$docroot${rpath##$skippath}" ]] || {
@@ -50,7 +50,7 @@ tail -F -n 0 "$logfile" | while read entry; do
     [[ -r "$limitfile" ]] && {
         size=$(print "$entry" | sed 's/.*\] "[^"]*" [0-9]* \([0-9]*\).*/\1/')
         # ignore incomplete downloads
-        [[ "$size" -lt $(stat -c "%s" "$docroot$directory$file") ]] && continue
+        [[ "$size" -lt $(stat -c "%s" "$docroot$directory$filename") ]] && continue
         ttl=$(( $(head -1 "$limitfile") - 1))
         [[ "$ttl" -gt 0 ]] && {
             # alimited file hit, decrease ttl
