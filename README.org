@@ -2,6 +2,8 @@
 a set of small scripts allowing to share files easily using a remote
 server which handles ssh and http.
 
+depends on: srm
+
 ** alimit.sh
 ... monitors ncsa logfiles for requests to limited files which after
 exceeding their TTL are deleted from the disk. This is useful for
@@ -39,7 +41,7 @@ A tool that publishes files and directories to a webserver via ssh,
 supports alimit/tlimit for a clean putbag.
 
 #+BEGIN_SRC
-# publish -a 10 -t "two weeks" funnyimage.png
+# publish -a 10 -t "2 weeks" funnyimage.png
 http://www.example.com/~user/putbag/funnyimage.png
 #+END_SRC
 
