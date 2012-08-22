@@ -24,8 +24,8 @@
 # check out the log
 # cat alimit.log
 
-logfile=${1:-/var/log/nginx/access.log}
-docroot=${2:-/var/www}
+docroot=${1:-/var/www}
+logfile=${2:-/var/log/nginx/access.log}
 
 tail -F -n 0 "$logfile" | while read entry; do
     # only handle 200 OK responses
