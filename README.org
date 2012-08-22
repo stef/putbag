@@ -10,7 +10,7 @@ sharing files for a limited amount of downloads.
 To alimit a file create a .<filename>.alimit file containing the
 number of allowed (and successful) downloads.
 
-** Limitations
+*** Limitations
 Only handles 200 requests, continuation, redirects, etc are not
 covered
 
