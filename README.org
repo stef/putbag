@@ -49,7 +49,7 @@ the clipboard.
 * nginx
 You might want to limit access to the .alimit files themselves. Do so using:
 #+BEGIN_SRC
-        location ~ \..*\.alimit$ {
+        location ~ \..*\.[at]limit$ {
                 deny all;
         }
 #+END_SRC
