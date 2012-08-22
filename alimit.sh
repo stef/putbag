@@ -56,7 +56,8 @@ tail -F -n 0 "$logfile" | while read entry; do
         }
         [[ "$ttl" -eq 0 ]] && {
             # ttl exceeded wipe file from disk
-            srm -fll "$docroot$rpath" "$limitfile";
+            tlimit="$docroot$directory/.$filename.tlimit"
+            srm -fll "$docroot$rpath" "$limitfile" "$tlimit";
             print "$(date --rfc-3339=ns) KILL $rpath $entry" >>alimit.log
         }
     }

@@ -24,6 +24,7 @@ find "$docroot" -name '.*.tlimit' | while read limitfile; do
     tmp=${tmp##.}
     filename=${tmp%%.tlimit}
     rpath="$directory/$filename"
+    alimit="$directory/.$filename.alimit"
     print "$(date --rfc-3339=ns) KILL $rpath"
-    srm -fll "$rpath" "$limitfile";
+    srm -fll "$rpath" "$limitfile" "$alimit";
 done
