@@ -50,7 +50,7 @@ tail -F -n 0 "$logfile" | while read entry; do
     [[ -r "$limitfile" ]] && {
         size=$(print "$entry" | sed 's/.*\] "[^"]*" [0-9]* \([0-9]*\).*/\1/')
         # ignore incomplete downloads
-        [[ "$size" -lt $(stat -c "%s" "$docroot$rpath") ]] && continue
+        [[ "$size" -lt $(stat -c "%s" "$docroot$directory$file") ]] && continue
         ttl=$(( $(head -1 "$limitfile") - 1))
         [[ "$ttl" -gt 0 ]] && {
             # alimited file hit, decrease ttl
@@ -60,7 +60,7 @@ tail -F -n 0 "$logfile" | while read entry; do
         [[ "$ttl" -eq 0 ]] && {
             # ttl exceeded wipe file from disk
             tlimit="$docroot$directory/.$filename.tlimit"
-            srm -fll "$docroot$rpath" "$limitfile" "$tlimit";
+            srm -fll "$docroot$directory$file" "$limitfile" "$tlimit";
             print "$(date --rfc-3339=ns) KILL $rpath $entry" >>alimit.log
         }
     }
