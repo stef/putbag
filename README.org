@@ -39,8 +39,7 @@ A tool that publishes files and directories to a webserver via ssh,
 supports alimit/tlimit for a clean putbag.
 
 #+BEGIN_SRC
-publish -a 10 -t "two weeks" funnyimage.png
-
+# publish -a 10 -t "two weeks" funnyimage.png
 http://www.example.com/~user/putbag/funnyimage.png
 #+END_SRC
 
