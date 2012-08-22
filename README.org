@@ -1,4 +1,8 @@
-* alimit.sh
+* putbag
+a set of small scripts allowing to share files easily using a remote
+server which handles ssh and http.
+
+** alimit.sh
 ... monitors ncsa logfiles for requests to limited files which after
 exceeding their TTL are deleted from the disk. This is useful for
 sharing files for a limited amount of downloads.
@@ -28,6 +32,20 @@ Check out the log
 # cat alimit.log
 #+END_SRC
 
+** tlimit.sh
+A small cronjob that weeds out expired files from the monitored directory structure.
+** publish
+A tool that publishes files and directories to a webserver via ssh,
+supports alimit/tlimit for a clean putbag.
+
+#+BEGIN_SRC
+publish -a 10 -t "two weeks" funnyimage.png
+
+http://www.example.com/~user/putbag/funnyimage.png
+#+END_SRC
+
+The result url is not only displayed, but also automatically copied to
+the clipboard.
 * nginx
 You might want to limit access to the .alimit files themselves. Do so using:
 #+BEGIN_SRC
