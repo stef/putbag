@@ -13,7 +13,11 @@ covered
 ** example
 Create a file and set the limit to 3 downloads
 #+BEGIN_SRC sh
-sudo sh -c 'rm alimit.log; echo 'asdf' >/var/www/limited; echo 3 >/var/www/.limited.alimit; ./alimit.sh
+sudo sh -c 'rm alimit.log; echo 'asdf' >/var/www/limited; echo 3 >/var/www/.limited.alimit; ./alimit.sh'
+#+END_SRC
+Run alimit
+#+BEGIN_SRC sh
+sudo ./alimit.sh
 #+END_SRC
 Execute 4 times:
 #+BEGIN_SRC sh
