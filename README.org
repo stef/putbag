@@ -1,0 +1,25 @@
+* alimit.sh
+... monitors ncsa logfiles for requests to limited files which after
+exceeding their TTL are deleted from the disk. This is useful for
+sharing files for a limited amount of downloads.
+
+To alimit a file create a .<filename>.alimit file containing the
+number of allowed (and successful) downloads.
+
+** Limitations
+Only handles 200 reuqests, continuation, redirects, etc are not
+covered
+
+** example
+Create a file and set the limit to 3 downloads
+#+BEGIN_SRC sh
+sudo sh -c 'rm alimit.log; echo 'asdf' >/var/www/limited; echo 3 >/var/www/.limited.alimit; ./alimit.sh
+#+END_SRC
+Execute 4 times:
+#+BEGIN_SRC sh
+# curl localhost/limited; curl localhost/.limited.alimit
+#+END_SRC
+Check out the log
+#+BEGIN_SRC sh
+# cat alimit.log
+#+END_SRC
