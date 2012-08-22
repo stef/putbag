@@ -11,7 +11,7 @@ To alimit a file create a .<filename>.alimit file containing the
 number of allowed (and successful) downloads.
 
 *** Limitations
-Only handles 200 requests, continuation, redirects, etc are not
+Only handles HTTP 200 responses, continuation, redirects, etc are not
 covered
 
 ** example
