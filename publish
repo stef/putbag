@@ -2,6 +2,9 @@
 
 alimit=''
 tlimit=''
+source /etc/putboxrc 2>/dev/null
+source ~/.putboxrc 2>/dev/null
+source .putboxrc 2>/dev/null
 while getopts a:t:s:u: opt
 do
     case "$opt" in
