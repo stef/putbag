@@ -30,7 +30,7 @@ scp -r $1 $sshpath
 # handle time limitations
 [[ -n "$tlimit" ]] && {
     tmp=$(mktemp)
-    date -d "$alimit" +%s >$tmp
+    date -d "$tlimit" +%s >$tmp
     dstfname=".${1##*/}.tlimit"
     scp "$tmp" "$sshpath/$dstfname"
     rm $tmp
