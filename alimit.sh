@@ -26,6 +26,7 @@
 
 docroot=${1:-/var/www}
 logfile=${2:-/var/log/nginx/access.log}
+skippath=$(cat skippath)
 
 tail -F -n 0 "$logfile" | while read entry; do
     # only handle 200 OK responses
@@ -42,6 +43,7 @@ tail -F -n 0 "$logfile" | while read entry; do
     }
     filename="${rpath#*/}"
     directory="${rpath%%/*}"
+    [[ -n "$skippath" ]] && directory="${directory##$skippath}"
     # if alimited file
     limitfile="$docroot$directory/.$filename.alimit"
     [[ -r "$limitfile" ]] && {
