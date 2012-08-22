@@ -24,9 +24,22 @@
 # check out the log
 # cat alimit.log
 
-docroot=${1:-/var/www}
-logfile=${2:-/var/log/nginx/access.log}
-skippath=$(cat skippath)
+docroot=/var/www
+logfile=/var/log/nginx/access.log
+skippath='' # for aliased locations contains string to skip, e.g. '/~*/'
+while getopts a:l:r: opt
+do
+    case "$opt" in
+      a)  skippath="$OPTARG";;
+      l)  logfile="$OPTARG";;
+      r)  docroot="$OPTARG";;
+      \?)		# unknown flag
+      	  echo >&2 \
+	  "usage: $0 [-r <docroot>] [-a <skippath>] [-l <logfile>] [file ...]"
+	  exit 1;;
+    esac
+done
+shift `expr $OPTIND - 1`
 
 tail -F -n 0 "$logfile" | while read entry; do
     # only handle 200 OK responses

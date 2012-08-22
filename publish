@@ -2,11 +2,13 @@
 
 alimit=''
 tlimit=''
-while getopts a:t: opt
+while getopts a:t:s:u: opt
 do
     case "$opt" in
       a)  alimit="$OPTARG";;
       t)  tlimit="$OPTARG";;
+      s)  sshpath="$OPTARG";;
+      u)  desturl="$OPTARG";;
       \?)		# unknown flag
       	  echo >&2 \
 	  "usage: $0 [-a <ttl>] [-t <expiry>] [file ...]"
@@ -15,8 +17,6 @@ do
 done
 shift `expr $OPTIND - 1`
 
-sshpath=$(cat sshpath) # e.g. localhost:public_html/putbag
-desturl=$(cat desturl) # e.g. http://www.example.com/~user/putbag/
 # publish file
 scp -r $1 $sshpath
 # handle access limitations
