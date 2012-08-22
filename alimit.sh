@@ -35,13 +35,14 @@ tail -F -n 0 "$logfile" | while read entry; do
 
     # extract path and filename from request
     req=$(print "$entry" | sed -r 's/.*]\s"([^ ]+)\s.*/\1/')
+    [[ "x$req" != "xGET" || "x$req" != "xPOST" ]] && continue
     rpath=$(print "$entry" | sed -r 's/.*] "'$req' (.*) HTTP\/[0-9.]*" .*/\1/')
 
     [[ -f "$docroot${rpath##$skippath}" ]] || {
         print "$(date --rfc-3339=ns) WARN not found: $rpath $entry" >>alimit.log
         continue
     }
-    filename="${rpath#*/}"
+    filename="${rpath##*/}"
     directory="${rpath%%/*}"
     [[ -n "$skippath" ]] && directory="${directory##$skippath}"
     # if alimited file
