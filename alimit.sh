@@ -37,7 +37,7 @@ tail -F -n 0 "$logfile" | while read entry; do
     req=$(print "$entry" | sed -r 's/.*]\s"([^ ]+)\s.*/\1/')
     rpath=$(print "$entry" | sed -r 's/.*] "'$req' (.*) HTTP\/[0-9.]*" .*/\1/')
 
-    [[ -f "$docroot$rpath" ]] || {
+    [[ -f "$docroot${rpath##$skippath}" ]] || {
         print "$(date --rfc-3339=ns) WARN not found: $rpath $entry" >>alimit.log
         continue
     }
