@@ -1,6 +1,10 @@
 #!/usr/bin/ksh
-# alimit.sh (c) 2012 Stefan Marsiske <s@ctrlc.hu>
-# GPLv3+
+# alimit.sh (c) 2012 <s@ctrlc.hu>
+
+#  This is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 3 of the License, or
+#  (at your option) any later version.
 
 # monitors ncsa logfiles for requests to *limited* files which after
 # exceeding their TTL are deleted from the disk
@@ -9,7 +13,7 @@
 # to alimit a file create a .<filename>.alimit file containing the
 # number of allowed (and successful) downloads
 
-# limitations, only handles 200 reuqests, continuation, redirects, etc
+# limitations, only handles 200 requests, continuation, redirects, etc
 # are not covered
 
 # example
@@ -25,11 +29,11 @@ docroot=${2:-/var/www}
 
 tail -F -n 0 "$logfile" | while read entry; do
     # only handle 200 OK responses
-    error="$(print "$entry" | sed 's/.*\] "[^"]*" \([0-9]*\).*/\1/')"
+    error=$(print "$entry" | sed 's/.*\] "[^"]*" \([0-9]*\).*/\1/')
     [[ "$error" != "200" ]] && continue
 
     # extract path and filename from request
-    req="$(print "$entry" | sed -r 's/.*]\s"([^ ]+)\s.*/\1/')"
+    req=$(print "$entry" | sed -r 's/.*]\s"([^ ]+)\s.*/\1/')
     rpath=$(print "$entry" | sed -r 's/.*] "'$req' (.*) HTTP\/[0-9.]*" .*/\1/')
 
     [[ -f "$docroot$rpath" ]] || {
