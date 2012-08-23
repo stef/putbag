@@ -1,10 +1,8 @@
 #!/usr/bin/ksh
 
-alimit=''
-tlimit=''
-source /etc/putboxrc 2>/dev/null
-source ~/.putboxrc 2>/dev/null
-source .putboxrc 2>/dev/null
+source /etc/putbagrc 2>/dev/null
+source ~/.putbagrc 2>/dev/null
+source .putbagrc 2>/dev/null
 while getopts a:t:s:u: opt
 do
     case "$opt" in
