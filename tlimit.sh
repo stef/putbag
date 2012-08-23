@@ -15,7 +15,12 @@
 # alternative docroot can be specified as cmd param:
 # ./tlimit.sh /home/user/public_html/putbox/
 
-docroot=${1:-/var/www}
+# set docroot default in one of these
+source /etc/putbagrc 2>/dev/null
+source ~/.putbagrc 2>/dev/null
+source .putbagrc 2>/dev/null
+
+docroot=${1}
 
 find "$docroot" -name '.*.tlimit' | while read limitfile; do
     [[ "$(head -1 $limitfile)" -ge "$(date +%s)" ]] && continue
