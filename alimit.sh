@@ -24,9 +24,16 @@
 # check out the log
 # cat alimit.log
 
+# defaults
 docroot=/var/www
 logfile=/var/log/nginx/access.log
 skippath='' # for aliased locations contains string to skip, e.g. '/~*/'
+
+# set skippath, docroot, logfile in these:
+source /etc/putbagrc 2>/dev/null
+source ~/.putbagrc 2>/dev/null
+source .putbagrc 2>/dev/null
+
 while getopts a:l:r: opt
 do
     case "$opt" in
@@ -42,7 +49,7 @@ done
 shift `expr $OPTIND - 1`
 
 function urldecode {
-    arg="$1"
+    arg=$(head -1)
     i=0
     while [[ $i -lt ${#arg} ]]; do
         p0=${arg:$i:1}
@@ -68,7 +75,7 @@ tail -F -n 0 "$logfile" | while read entry; do
     # extract path and filename from request
     req=$(print "$entry" | sed -r 's/.*]\s"([^ ]+)\s.*/\1/')
     [[ "x$req" != "xGET" && "x$req" != "xPOST" ]] && continue
-    rpath=$(urldecode "$entry" | sed -r 's/.*] "'$req' (.*) HTTP\/[0-9.]*" .*/\1/')
+    rpath=$(print "$entry" | sed -r 's/.*] "'$req' (.*) HTTP\/[0-9.]*" .*/\1/' | urldecode)
 
     [[ -e "$docroot${rpath##$skippath}" ]] || {
         print "$(date --rfc-3339=ns) WARN not found: $rpath $entry"
