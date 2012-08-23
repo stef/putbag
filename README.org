@@ -7,6 +7,31 @@ server which handles ssh and http. putbag consists of 2 components
 
 depends on: srm
 
+** publish
+A tool that publishes files and directories to a webserver via ssh,
+supports alimit/tlimit for a clean putbag.
+*** Parameters
+    - [-a <access ttl>]
+    - [-t <time expiry>] - can handle input like "2 weeks"
+    - [-d <ssh path> ] - where to upload to
+    - [-u <publishing url>] - the url prepended to the published
+      content
+
+   These parameters can also be set in /etc/putbagrc, ~/.putbagrc and ./.putbagrc
+#+BEGIN_SRC sh
+   sshpath=my.server.org:share
+   desturl=http://my.server.org/putbag/
+   alimit=10 # default always to 10 downloads
+   tlimit=1 week # default to share only briefly
+#+END_SRC
+
+#+BEGIN_SRC sh
+# publish -a 10 -t "2 weeks" funnyimage.png
+http://www.example.com/~user/putbag/funnyimage.png
+#+END_SRC
+
+The result url is not only displayed, but also automatically copied to
+the clipboard.
 ** alimit.sh
 ... monitors ncsa logfiles for requests to limited files which after
 exceeding their TTL are deleted from the disk. This is useful for
@@ -52,31 +77,6 @@ use something similar in your crontab:
 #+BEGIN_SRC
 */3 * * * * /home/user/putbag/tlimit.sh /home/user/public/
 #+END_SRC
-** publish
-A tool that publishes files and directories to a webserver via ssh,
-supports alimit/tlimit for a clean putbag.
-*** Parameters
-    - [-a <access ttl>]
-    - [-t <time expiry>] - can handle input like "2 weeks"
-    - [-d <ssh path> ] - where to upload to
-    - [-u <publishing url>] - the url prepended to the published
-      content
-
-   These parameters can also be set in /etc/putbagrc, ~/.putbagrc and ./.putbagrc
-#+BEGIN_SRC sh
-   sshpath=my.server.org:share
-   desturl=http://my.server.org/putbag/
-   alimit=10 # default always to 10 downloads
-   tlimit=1 week # default to share only briefly
-#+END_SRC
-
-#+BEGIN_SRC sh
-# publish -a 10 -t "2 weeks" funnyimage.png
-http://www.example.com/~user/putbag/funnyimage.png
-#+END_SRC
-
-The result url is not only displayed, but also automatically copied to
-the clipboard.
 * nginx
 You might want to limit access to the .alimit files themselves. Do so using:
 #+BEGIN_SRC
