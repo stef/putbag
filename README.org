@@ -1,6 +1,9 @@
 * putbag
 a set of small scripts allowing to share files easily using a remote
-server which handles ssh and http.
+server which handles ssh and http. putbag consists of 2 components
+ - *publish* for uploading files to the share
+ - *alimit* and *tlimit* for cleaning the files after specified number
+   of successful access or expiration of a timelimit
 
 depends on: srm
 
@@ -12,12 +15,21 @@ sharing files for a limited amount of downloads.
 To alimit a file create a .<filename>.alimit file containing the
 number of allowed (and successful) downloads.
 
+assuming you are publishing your files under an aliased directory to
+/putbag/ run:
+#+BEGIN_SRC sh
+alimit.sh -r ~/share/ -l /var/log/nginx/access.log -a /putbag/
+#+END_SRC
+
+alimit will log to stdout its activities.
+
 *** Limitations
 Only handles HTTP 200 responses, continuation, redirects, etc are not
 covered
 
-** example
-Create a file and set the limit to 3 downloads
+*** example
+Create a file and set the limit to 3 downloads (assuming you have a
+webserver running on localhost):
 #+BEGIN_SRC sh
 sudo sh -c 'rm alimit.log; echo 'asdf' >/var/www/limited; echo 3 >/var/www/.limited.alimit'
 #+END_SRC
@@ -36,11 +48,29 @@ Check out the log
 
 ** tlimit.sh
 A small cronjob that weeds out expired files from the monitored directory structure.
+use something similar in your crontab:
+#+BEGIN_SRC
+*/3 * * * * /home/user/putbag/tlimit.sh /home/user/public/
+#+END_SRC
 ** publish
 A tool that publishes files and directories to a webserver via ssh,
 supports alimit/tlimit for a clean putbag.
+*** Parameters
+    - [-a <access ttl>]
+    - [-t <time expiry>] - can handle input like "2 weeks"
+    - [-d <ssh path> ] - where to upload to
+    - [-u <publishing url>] - the url prepended to the published
+      content
 
-#+BEGIN_SRC
+   These parameters can also be set in /etc/putbagrc, ~/.putbagrc and ./.putbagrc
+#+BEGIN_SRC sh
+   sshpath=my.server.org:share
+   desturl=http://my.server.org/putbag/
+   alimit=10 # default always to 10 downloads
+   tlimit=1 week # default to share only briefly
+#+END_SRC
+
+#+BEGIN_SRC sh
 # publish -a 10 -t "2 weeks" funnyimage.png
 http://www.example.com/~user/putbag/funnyimage.png
 #+END_SRC
