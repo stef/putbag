@@ -52,7 +52,7 @@ tail -F -n 0 "$logfile" | while read entry; do
     rpath=$(print "$entry" | sed -r 's/.*] "'$req' (.*) HTTP\/[0-9.]*" .*/\1/')
 
     [[ -f "$docroot${rpath##$skippath}" ]] || {
-        print "$(date --rfc-3339=ns) WARN not found: $rpath $entry" >>alimit.log
+        print "$(date --rfc-3339=ns) WARN not found: $rpath $entry"
         continue
     }
     filename="${rpath##*/}"
@@ -68,13 +68,13 @@ tail -F -n 0 "$logfile" | while read entry; do
         [[ "$ttl" -gt 0 ]] && {
             # alimited file hit, decrease ttl
             print "$ttl" >"$limitfile";
-            print "$(date --rfc-3339=ns) HIT $ttl $rpath $entry" >>alimit.log
+            print "$(date --rfc-3339=ns) HIT $ttl $rpath $entry"
         }
         [[ "$ttl" -eq 0 ]] && {
             # ttl exceeded wipe file from disk
             tlimit="$docroot$directory/.$filename.tlimit"
             srm -fll "$docroot$directory$filename" "$limitfile" "$tlimit";
-            print "$(date --rfc-3339=ns) KILL $rpath $entry" >>alimit.log
+            print "$(date --rfc-3339=ns) KILL $rpath $entry"
         }
     }
 done
