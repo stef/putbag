@@ -27,7 +27,7 @@ supports alimit/tlimit for a clean putbag.
 
 #+BEGIN_SRC sh
 # publish -a 10 -t "2 weeks" funnyimage.png
-http://www.example.com/~user/putbag/funnyimage.png
+http://my.server.org/putbag/funnyimage.png
 #+END_SRC
 
 The result url is not only displayed, but also automatically copied to
