@@ -19,7 +19,7 @@ done
 shift `expr $OPTIND - 1`
 
 # publish file
-scp -r $1 $sshpath
+scp -r $1 $sshpath || exit 1
 # handle access limitations
 [[ -n "$alimit" ]] && {
     tmp=$(mktemp)
