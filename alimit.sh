@@ -77,6 +77,8 @@ tail -F -n 0 "$logfile" | while read entry; do
     [[ "x$req" != "xGET" && "x$req" != "xPOST" ]] && continue
     rpath=$(print "$entry" | sed -r 's/.*] "'$req' (.*) HTTP\/[0-9.]*" .*/\1/' | urldecode)
 
+    # not with skippath prefix
+    [[ "${rpath##$skippath}" == "$rpath" ]] && continue
     [[ -e "$docroot${rpath##$skippath}" ]] || {
         print "$(date --rfc-3339=ns) WARN not found: $rpath $entry"
         continue
