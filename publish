@@ -38,6 +38,6 @@ scp -r $1 $sshpath || exit 1
 }
 
 # copy url into clipboard
-printf "$desturl$1" | xclip -i
+printf "$desturl${1##*/}" | xclip -i
 # echo result url
-echo "$desturl$1"
+echo "$desturl${1##*/}"
